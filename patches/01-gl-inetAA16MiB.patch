@@ -33,6 +33,16 @@
  	tl-wr741nd | \
  	tl-wr741nd-v4 | \
  	tl-wr841n-v1 | \
+--- a/target/linux/ar71xx/config-3.3
++++ b/target/linux/ar71xx/config-3.3
+@@ -65,6 +65,7 @@ CONFIG_ATH79_MACH_TL_WR1041N_V2=y
+ CONFIG_ATH79_MACH_TL_WR1043ND=y
+ CONFIG_ATH79_MACH_TL_WR2543N=y
+ CONFIG_ATH79_MACH_TL_WR703N=y
++CONFIG_ATH79_MACH_GL_INET=y
+ CONFIG_ATH79_MACH_TL_WR741ND=y
+ CONFIG_ATH79_MACH_TL_WR741ND_V4=y
+ CONFIG_ATH79_MACH_TL_WR841N_V1=y
 --- /dev/null
 +++ b/target/linux/ar71xx/files/arch/mips/ath79/mach-gl-inet.c
 @@ -0,0 +1,100 @@
@@ -166,6 +176,48 @@
  $(eval $(call SingleProfile,UBDEV,$(fs_64k),UBDEV01,ubdev01,UBNT-UF,ttyS0,115200,XM,XM,ar7240))
  
  $(eval $(call SingleProfile,UBNT,$(fs_64k),UBNTRS,ubnt-rs,UBNT-RS,ttyS0,115200,RS,RSx,ar7100))
+--- a/tools/firmware-utils/src/mktplinkfw.c
++++ b/tools/firmware-utils/src/mktplinkfw.c
+@@ -52,7 +52,7 @@
+ #define HWID_TL_WR1043ND_V1	0x10430001
+ #define HWID_TL_WR1041N_V2	0x10410002
+ #define HWID_TL_WR2543N_V1	0x25430001
+-
++#define HWID_GL_INET_V1		0x08000001
+ #define MD5SUM_LEN	16
+ 
+ struct file_info {
+@@ -173,6 +173,18 @@ static struct flash_layout layouts[] = {
+ 		.kernel_ep	= 0x80060000,
+ 		.rootfs_ofs	= 0x100000,
+ 	}, {
++		.id		= "16M",
++		.fw_max_len	= 0xfc0000,
++		.kernel_la	= 0x80060000,
++		.kernel_ep	= 0x80060000,
++		.rootfs_ofs	= 0x140000,
++	}, {
++		.id		= "16Mlzma",
++		.fw_max_len	= 0xfc0000,
++		.kernel_la	= 0x80060000,
++		.kernel_ep	= 0x80060000,
++		.rootfs_ofs	= 0x100000,
++	}, {
+ 		/* terminating entry */
+ 	}
+ };
+@@ -289,6 +301,11 @@ static struct board_info boards[] = {
+ 		.hw_rev		= 1,
+ 		.layout_id	= "4Mlzma",
+ 	}, {
++		.id		= "GL-INETv1",
++		.hw_id		= HWID_GL_INET_V1,
++		.hw_rev		= 1,
++		.layout_id	= "16Mlzma",
++	}, {
+ 		/* terminating entry */
+ 	}
+ };
 --- /dev/null
 +++ b/target/linux/ar71xx/patches-3.3/911-mips-ath79-machine.patch
 @@ -0,0 +1,39 @@
@@ -208,55 +260,3 @@
 + 	ATH79_MACH_TL_WR741ND,		/* TP-LINK TL-WR741ND */
 + 	ATH79_MACH_TL_WR741ND_V4,	/* TP-LINK TL-WR741ND  v4*/
 + 	ATH79_MACH_TL_WR841N_V1,	/* TP-LINK TL-WR841N v1 */
---- a/target/linux/config-3.3
-+++ b/target/linux/config-3.3
-@@ -65,6 +65,7 @@ CONFIG_ATH79_MACH_TL_WR1041N_V2=y
- CONFIG_ATH79_MACH_TL_WR1043ND=y
- CONFIG_ATH79_MACH_TL_WR2543N=y
- CONFIG_ATH79_MACH_TL_WR703N=y
-+CONFIG_ATH79_MACH_GL_INET=y
- CONFIG_ATH79_MACH_TL_WR741ND=y
- CONFIG_ATH79_MACH_TL_WR741ND_V4=y
- CONFIG_ATH79_MACH_TL_WR841N_V1=y
---- a/tools/firmware-utils/src/mktplinkfw.c
-+++ b/tools/firmware-utils/src/mktplinkfw.c
-@@ -52,7 +52,7 @@
- #define HWID_TL_WR1043ND_V1	0x10430001
- #define HWID_TL_WR1041N_V2	0x10410002
- #define HWID_TL_WR2543N_V1	0x25430001
--
-+#define HWID_GL_INET_V1		0x08000001
- #define MD5SUM_LEN	16
- 
- struct file_info {
-@@ -173,6 +173,18 @@ static struct flash_layout layouts[] = {
- 		.kernel_ep	= 0x80060000,
- 		.rootfs_ofs	= 0x100000,
- 	}, {
-+		.id		= "16M",
-+		.fw_max_len	= 0xf80000,
-+		.kernel_la	= 0x80060000,
-+		.kernel_ep	= 0x80060000,
-+		.rootfs_ofs	= 0x140000,
-+	}, {
-+		.id		= "16Mlzma",
-+		.fw_max_len	= 0xf80000,
-+		.kernel_la	= 0x80060000,
-+		.kernel_ep	= 0x80060000,
-+		.rootfs_ofs	= 0x100000,
-+	}, {
- 		/* terminating entry */
- 	}
- };
-@@ -289,6 +301,11 @@ static struct board_info boards[] = {
- 		.hw_rev		= 1,
- 		.layout_id	= "4Mlzma",
- 	}, {
-+		.id		= "GL-INETv1",
-+		.hw_id		= HWID_GL_INET_V1,
-+		.hw_rev		= 1,
-+		.layout_id	= "16Mlzma",
-+	}, {
- 		/* terminating entry */
- 	}
- };

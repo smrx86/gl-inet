@@ -13,13 +13,13 @@ They are some directory in this repo, but the firmware itself will take place in
 
 * **Image**, this contain image file for documentation purpose.
 
-* **Patches**, some patches and fixes file for GL-inet development i'll put it here. 
+* **Patches**, some patches file that needed for GL-inet development i'll put it here. 
 
 Firmware
 --------
 * **Instacampro**
   This firmware is a porting from my previous [instacampro][] builds. It have many package install on it like mjpeg-streamer, modswitch for 3g modem support, DDNS and Extroot packages.
-  The main idea is origanally comes from [minikrebs][] project.
+  The main idea is basically comes from [minikrebs][] project.
   preview:
 
 <center>  ![telnet](./image/termglinet.png)</center>

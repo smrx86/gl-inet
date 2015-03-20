@@ -12,28 +12,17 @@ Attitude Adjustment 12.09
 	howto use:
 
     $sudo apt-get install quilt
-
     $cat > ~/.quiltrc <<EOF
-
      QUILT_DIFF_ARGS="--no-timestamps --no-index -pab --color=auto"
-
      QUILT_REFRESH_ARGS="--no-timestamps --no-index -pab"
-
      QUILT_PATCH_OPTS="--unified"
-     
      QUILT_DIFF_OPTS="-p"
-
      EDITOR="nano"
      EOF
-
     $cd openwrt
-
     $cat > patches/series <<EOF
-
      01-gl-inetAA16MiB.patch
-
      EOF
-
     $quilt push -a
 
 
@@ -44,28 +33,17 @@ Barrier Breaker 14.07
 	howto use:
 
     $sudo apt-get install quilt
-
     $cat > ~/.quiltrc <<EOF
-
      QUILT_DIFF_ARGS="--no-timestamps --no-index -pab --color=auto"
-
      QUILT_REFRESH_ARGS="--no-timestamps --no-index -pab"
-
      QUILT_PATCH_OPTS="--unified"
-     
      QUILT_DIFF_OPTS="-p"
-
      EDITOR="nano"
      EOF
-
     $cd openwrt
-
     $cat > patches/series <<EOF
-
      02-gl_inetBB16MiB.patch
-
      EOF
-
     $quilt push -a
 
 
@@ -75,7 +53,6 @@ Barrier Breaker 14.07
 	howto use:
 
     $cd trunk
-
     $cp 130-mips_remove_plat_dma_functions.patch /home/username/openwrt/target/linux/generic/patches-3.10
 
 * **609-MIPS-ath79-ap136-fixes.patch**, a patches for Barrier breaker buildroot. you can find the the origin trunk/target/linux/generic/patches-3.10. replace the origin with this patches.
@@ -83,7 +60,6 @@ Barrier Breaker 14.07
 	howto use:
 
     $cd trunk
-
     $cp 609-MIPS-ath79-ap136-fixes.patc /home/username/openwrt/target/linux/generic/patches-3.10
 
 
